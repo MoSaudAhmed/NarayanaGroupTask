@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.narayanagrouptask.R
 import com.example.narayanagrouptask.di.ViewModelFactory
 import com.example.narayanagrouptask.models.RepoItem
@@ -42,6 +43,7 @@ class HomeActivity : DaggerAppCompatActivity(), HomeRepoCLickListener {
     private lateinit var rv_home_repos: RecyclerView
     private lateinit var pagingAdapter: RepositoryPagingAdapter
     private lateinit var progress_home: ProgressBar
+    private lateinit var swipe_to_refresh: SwipeRefreshLayout
 
     var searchAdapter: HomeRepositoryAdapter? = null
 
@@ -128,11 +130,19 @@ class HomeActivity : DaggerAppCompatActivity(), HomeRepoCLickListener {
 
     private fun initViews() {
         rv_home_repos = findViewById(R.id.rv_home_repos)
+        swipe_to_refresh = findViewById(R.id.swipe_to_refresh)
         progress_home = findViewById(R.id.progress_home)
         materialSearchView = findViewById(R.id.materialSearchView)
         materialSearchView.visibility = VISIBLE
         findViewById<ImageView?>(R.id.ivBack).visibility = GONE
         findViewById<TextView>(R.id.tvProfileNm).visibility = GONE
+
+        swipe_to_refresh.setOnRefreshListener {
+            swipe_to_refresh.isRefreshing = false
+            homeViewModel.fetchRepoData()
+            materialSearchView.setQuery("", false)
+            materialSearchView.clearFocus()
+        }
     }
 
     private fun setupPagingRecyclerView() {

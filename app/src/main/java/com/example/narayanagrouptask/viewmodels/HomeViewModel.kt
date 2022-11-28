@@ -39,6 +39,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun fetchRepoData() {
+        if (checkInternet(getApplication<Application>().applicationContext)) {
+            items = homeRepository.getAllRepos().cachedIn(viewModelScope)
+        } else {
+            homeRepository.fetchReposFromDb(mCompositeDisposable)
+            internetStatus.value = false
+        }
+    }
+
     fun fetchSearchRepos(str: String) {
         if (checkInternet(getApplication<Application>().applicationContext)) {
             internetStatus.postValue(true)
