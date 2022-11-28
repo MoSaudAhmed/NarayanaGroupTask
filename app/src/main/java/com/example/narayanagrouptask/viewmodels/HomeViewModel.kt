@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.narayanagrouptask.models.HomeAllRepositoriesResponse
+import com.example.narayanagrouptask.models.RepoItem
 import com.example.narayanagrouptask.repositories.HomeRepository
 import com.example.narayanagrouptask.utils.ProgressVisibility
 import com.example.narayanagrouptask.utils.checkInternet
@@ -20,7 +21,7 @@ class HomeViewModel @Inject constructor(
     var errorMessage: MutableLiveData<String> = MutableLiveData()
     val internetStatus: MutableLiveData<Boolean> = MutableLiveData()
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
-
+    var allReposResponse: MutableLiveData<List<RepoItem>> = MutableLiveData()
     var searchReposResponse: MutableLiveData<HomeAllRepositoriesResponse> = MutableLiveData()
     var items = homeRepository.getAllRepos().cachedIn(viewModelScope)
     var successMsg: MutableLiveData<String> = MutableLiveData()
@@ -30,7 +31,12 @@ class HomeViewModel @Inject constructor(
         errorMessage = homeRepository.errorMsg
         searchReposResponse = homeRepository.searchReposResponse
         successMsg = homeRepository.successMsg
+        allReposResponse = homeRepository.allReposResponse
 
+        if (!checkInternet(getApplication<Application>().applicationContext)) {
+            homeRepository.fetchReposFromDb(mCompositeDisposable)
+            internetStatus.value = false
+        }
     }
 
     fun fetchSearchRepos(str: String) {
@@ -47,7 +53,7 @@ class HomeViewModel @Inject constructor(
         mCompositeDisposable.clear()
     }
 
-    fun validateAndInsertDataToDB() {
-        //("Not yet implemented")
+    fun validateAndInsertDataToDB(items: List<RepoItem>) {
+        homeRepository.checkNeedToSyncDB(mCompositeDisposable, items.take(15))
     }
 }

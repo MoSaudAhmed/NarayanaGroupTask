@@ -78,6 +78,12 @@ dependencies {
     //multidex
     implementation 'androidx.multidex:multidex:2.0.1'
 
+    //Paging lib
     def paging_version = "3.1.1"
     implementation "androidx.paging:paging-runtime:$paging_version"
+
+    //Room Database lib
+    implementation "androidx.room:room-runtime:2.2.6"
+    kapt "androidx.room:room-compiler:2.2.6"
+
 }

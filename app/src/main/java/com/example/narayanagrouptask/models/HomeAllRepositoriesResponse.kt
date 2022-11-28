@@ -2,6 +2,9 @@ package com.example.narayanagrouptask.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class HomeAllRepositoriesResponse(
@@ -10,13 +13,14 @@ data class HomeAllRepositoriesResponse(
     @SerializedName("items") var repoList: List<RepoItem>
 )
 
+@Entity
 data class RepoItem(
-    @SerializedName("id") var id: Int? = null,
+    @PrimaryKey @SerializedName("id") var id: Int? = null,
     @SerializedName("node_id") var nodeId: String? = null,
     @SerializedName("name") var name: String? = null,
     @SerializedName("full_name") var fullName: String? = null,
     @SerializedName("private") var private: Boolean? = null,
-    @SerializedName("owner") var owner: Owner? = Owner(),
+   @Ignore @SerializedName("owner") var owner: Owner? = Owner(),
     @SerializedName("html_url") var htmlUrl: String? = null,
     @SerializedName("description") var description: String? = null,
     @SerializedName("fork") var fork: Boolean? = null,
@@ -80,20 +84,18 @@ data class RepoItem(
     @SerializedName("archived") var archived: Boolean? = null,
     @SerializedName("disabled") var disabled: Boolean? = null,
     @SerializedName("open_issues_count") var openIssuesCount: Int? = null,
-    @SerializedName("license") var license: License? = License(),
+    @Ignore@SerializedName("license") var license: License? = License(),
     @SerializedName("allow_forking") var allowForking: Boolean? = null,
     @SerializedName("is_template") var isTemplate: Boolean? = null,
     @SerializedName("web_commit_signoff_required") var webCommitSignoffRequired: Boolean? = null,
-    @SerializedName("topics") var topics: ArrayList<String> = arrayListOf(),
+    @Ignore@SerializedName("topics") var topics: ArrayList<String> = arrayListOf(),
     @SerializedName("visibility") var visibility: String? = null,
     @SerializedName("forks") var forks: Int? = null,
     @SerializedName("open_issues") var openIssues: Int? = null,
     @SerializedName("watchers") var watchers: Int? = null,
     @SerializedName("default_branch") var defaultBranch: String? = null,
     @SerializedName("score") var score: Int? = null
-) {
-}
-
+)
 
 data class Owner(
     @SerializedName("login") var login: String? = null,
@@ -114,8 +116,8 @@ data class Owner(
     @SerializedName("received_events_url") var receivedEventsUrl: String? = null,
     @SerializedName("type") var type: String? = null,
     @SerializedName("site_admin") var siteAdmin: Boolean? = null
-) {
-}
+)
+
 
 data class License(
     @SerializedName("key") var key: String? = null,
@@ -123,5 +125,4 @@ data class License(
     @SerializedName("spdx_id") var spdxId: String? = null,
     @SerializedName("url") var url: String? = null,
     @SerializedName("node_id") var nodeId: String? = null
-) {
-}
+)

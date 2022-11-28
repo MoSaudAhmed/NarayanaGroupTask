@@ -2,6 +2,7 @@ package com.example.narayanagrouptask.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -45,6 +46,7 @@ class HomeActivity : DaggerAppCompatActivity(), HomeRepoCLickListener {
     var searchAdapter: HomeRepositoryAdapter? = null
 
     var searchList: ArrayList<RepoItem> = ArrayList()
+    var allRepoList: ArrayList<RepoItem> = ArrayList()
 
     //Timer to load data on text change in searchView
     var timer = Timer()
@@ -65,7 +67,11 @@ class HomeActivity : DaggerAppCompatActivity(), HomeRepoCLickListener {
 
         homeViewModel.items.observe(this, Observer {
             pagingAdapter.submitData(lifecycle, it)
-            homeViewModel.validateAndInsertDataToDB()
+        })
+
+        homeViewModel.allReposResponse.observe(this, Observer {
+            allRepoList.addAll(it)
+            homeViewModel.validateAndInsertDataToDB(allRepoList)
         })
         homeViewModel.searchReposResponse.observe(this, Observer {
             searchList = it.repoList as ArrayList<RepoItem>
