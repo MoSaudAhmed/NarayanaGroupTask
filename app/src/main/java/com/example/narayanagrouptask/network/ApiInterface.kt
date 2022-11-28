@@ -10,9 +10,6 @@ import retrofit2.http.Url
 
 interface ApiInterface {
 
-    //repositories?q=page=1&per_page=10
-    ///search/repositories?q=flutter
-
     @GET
     suspend fun getAllRepositories(
         @Url query: String,

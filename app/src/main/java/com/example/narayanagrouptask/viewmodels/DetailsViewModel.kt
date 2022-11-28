@@ -31,11 +31,10 @@ class DetailsViewModel @Inject constructor(
 
     fun fetchDetailsRepo(htmlUrl: String) {
         if (checkInternet(getApplication<Application>().applicationContext)) {
-            //internetStatus.value = true
-            detailsRepository.getDetailsRepos(mCompositeDisposable,htmlUrl)
-
+            internetStatus.value = true
+            detailsRepository.getDetailsRepos(mCompositeDisposable, htmlUrl)
         } else {
-            //internetStatus.value = false
+            internetStatus.value = false
         }
     }
 

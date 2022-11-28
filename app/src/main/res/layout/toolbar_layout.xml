@@ -69,7 +69,9 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="5dp"
+                        android:ellipsize="end"
                         android:gravity="center"
+                        android:singleLine="true"
                         android:textSize="20sp"
                         tools:ignore="MissingPrefix" />
 

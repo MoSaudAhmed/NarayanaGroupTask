@@ -15,23 +15,34 @@ lateinit var progressBar: ProgressBar
 class WebViewActivity : AppCompatActivity() {
 
     var url = ""
+    var name = ""
 
-    lateinit var ivBack: ImageView
     lateinit var tvProfileNm: TextView
+    lateinit var webView: WebView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
 
-        progressBar = findViewById(R.id.progressBar)
-        val webView = findViewById<WebView>(R.id.webView)
+        initViews()
 
         webView.webViewClient = myWebClient()
         webView.settings.javaScriptEnabled = true
 
         url = intent.getStringExtra("url")!!
+        name = intent.getStringExtra("name")!!
+        tvProfileNm.text = name
 
         webView.loadUrl(url)
+    }
+
+    private fun initViews() {
+        progressBar = findViewById(R.id.progressBar)
+        tvProfileNm = findViewById(R.id.tvProfileNm)
+        webView = findViewById(R.id.webView)
+        findViewById<ImageView>(R.id.ivBack).setOnClickListener {
+            finish()
+        }
     }
 }
 

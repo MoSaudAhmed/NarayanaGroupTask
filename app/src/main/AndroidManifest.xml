@@ -27,7 +27,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.activities.RepoDetailedActivity"
+            android:name=".ui.activities.DetailsActivity"
             android:exported="false"
             android:screenOrientation="portrait">
             <meta-data

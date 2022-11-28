@@ -20,49 +20,34 @@ class HomeViewModel @Inject constructor(
     var errorMessage: MutableLiveData<String> = MutableLiveData()
     val internetStatus: MutableLiveData<Boolean> = MutableLiveData()
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
-    //var allReposResponse: MutableLiveData<HomeAllRepositoriesResponse> = MutableLiveData()
-    var items=homeRepository.getAllRepos().cachedIn(viewModelScope)
+
+    var searchReposResponse: MutableLiveData<HomeAllRepositoriesResponse> = MutableLiveData()
+    var items = homeRepository.getAllRepos().cachedIn(viewModelScope)
     var successMsg: MutableLiveData<String> = MutableLiveData()
-    var pageNumber: Int = 1
-    var pageLimit: Int = 10
-    var isLoading: Boolean = true
 
     init {
         loadingVisibility = homeRepository.loadingVisibility
         errorMessage = homeRepository.errorMsg
-      //  allReposResponse = homeRepository.allUsersResponse
+        searchReposResponse = homeRepository.searchReposResponse
         successMsg = homeRepository.successMsg
 
     }
 
-    fun fetchRepos() {
+    fun fetchSearchRepos(str: String) {
         if (checkInternet(getApplication<Application>().applicationContext)) {
-            //internetStatus.value = true
-            //homeRepository.getAllRepos(mCompositeDisposable,pageNumber,pageLimit)
-            val list = homeRepository.getAllRepos().cachedIn(viewModelScope)
-
+            internetStatus.postValue(true)
+            homeRepository.getSearchRepos(mCompositeDisposable, str)
         } else {
-            //internetStatus.value = false
-            /*if (messagesRequest != null) {
-                messagesRepo.fetchMessageFromDb(
-                    mCompositeDisposable,
-                    msgLinkId,
-                    messagesRequest.PageNumber,
-                    20
-                )
-            } else if (familyMessagesRequest != null) {
-                messagesRepo.fetchMessageFromDb(
-                    mCompositeDisposable,
-                    msgLinkId,
-                    familyMessagesRequest.PageNumber,
-                    20
-                )
-            }*/
+            internetStatus.postValue(false)
         }
     }
 
     override fun onCleared() {
         super.onCleared()
         mCompositeDisposable.clear()
+    }
+
+    fun validateAndInsertDataToDB() {
+        //("Not yet implemented")
     }
 }

@@ -20,7 +20,6 @@ import javax.inject.Singleton
 @Suppress("unused")
 class NetworkModule{
 
-
     @Provides
     @Singleton
     fun provideOkHttpInterceptors(): HttpLoggingInterceptor {

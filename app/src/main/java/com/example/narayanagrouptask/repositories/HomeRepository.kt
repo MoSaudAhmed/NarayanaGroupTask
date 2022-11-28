@@ -17,11 +17,16 @@ class HomeRepository @Inject constructor(private val apiInterface: ApiInterface)
     val loadingVisibility: MutableLiveData<ProgressVisibility> = MutableLiveData()
     val errorMsg: MutableLiveData<String> = MutableLiveData()
     val successMsg: MutableLiveData<String> = MutableLiveData()
-    val allUsersResponse: MutableLiveData<HomeAllRepositoriesResponse> = MutableLiveData()
+    val searchReposResponse: MutableLiveData<HomeAllRepositoriesResponse> = MutableLiveData()
 
     fun getAllRepos() = Pager(
         config = PagingConfig(pageSize = 10, maxSize = 50),
-        pagingSourceFactory = { RepositoryPagingSource(apiInterface,"search/repositories?q=page=") }
+        pagingSourceFactory = {
+            RepositoryPagingSource(
+                apiInterface,
+                "search/repositories?q=page="
+            )
+        }
     ).liveData
 
 /*    fun getAllRepos(mCompositDisposible: CompositeDisposable, pageNumber: Int, pageLimit: Int) {
@@ -41,22 +46,19 @@ class HomeRepository @Inject constructor(private val apiInterface: ApiInterface)
             apiInterface.getSearchRepositories(str)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { loadingVisibility.value = ProgressVisibility.VISIBLE }
+                .doOnSubscribe { loadingVisibility.postValue(ProgressVisibility.VISIBLE) }
                 .subscribe(
-                    { response -> updateResponse(mCompositDisposible, response) },
+                    { response -> updateResponse(response) },
                     { error -> updateFailure(error) }
                 ))
     }
 
     private fun updateResponse(
-        mCompositDisposible: CompositeDisposable,
         response: HomeAllRepositoriesResponse?
     ) {
         loadingVisibility.value = ProgressVisibility.GONE
-        //Incomplete result returns false if there's data(Status)
         if (!response!!.status!! && response!!.repoList != null) {
-            allUsersResponse.value = response
-            //saveUsersInDb(mCompositeDisposable = mCompositDisposible,users = items)
+            searchReposResponse.value = response
         }
     }
 

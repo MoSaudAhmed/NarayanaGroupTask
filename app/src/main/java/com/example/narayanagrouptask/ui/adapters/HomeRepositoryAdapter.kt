@@ -18,8 +18,8 @@ class HomeRepositoryAdapter(
     var listener: HomeRepoCLickListener
 ) : RecyclerView.Adapter<HomeRepositoryAdapter.MViewHolder>() {
 
-    public fun updateList(repoItems: List<RepoItem>){
-        this.repoItems.addAll(repoItems)
+    public fun updateList(repoItems: ArrayList<RepoItem>){
+        this.repoItems=repoItems
         //COuld be improved with DiffUtils or some other way to notify only newly added items
         notifyDataSetChanged()
     }

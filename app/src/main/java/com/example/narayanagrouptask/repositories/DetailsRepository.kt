@@ -17,7 +17,7 @@ class DetailsRepository @Inject constructor(private val apiInterface: ApiInterfa
     val detailsList: MutableLiveData<List<Owner>> = MutableLiveData()
 
     fun getDetailsRepos(mCompositDisposible: CompositeDisposable, htmlUrl: String) {
-        var endPoint=htmlUrl.replace(BASE_URL,"").replace("repos/","")
+        var endPoint = htmlUrl.replace(BASE_URL, "").replace("repos/", "")
         var items = endPoint.split("/")
 
         mCompositDisposible.add(
@@ -26,20 +26,17 @@ class DetailsRepository @Inject constructor(private val apiInterface: ApiInterfa
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { loadingVisibility.value = ProgressVisibility.VISIBLE }
                 .subscribe(
-                    { response -> updateResponse(mCompositDisposible, response) },
+                    { response -> updateResponse(response) },
                     { error -> updateFailure(error) }
                 ))
     }
 
     private fun updateResponse(
-        mCompositDisposible: CompositeDisposable,
         response: List<Owner>?
     ) {
         loadingVisibility.value = ProgressVisibility.GONE
-        //Incomplete result returns false if there's data(Status)
         if (response!! != null && response.size > 0) {
             detailsList.value = response
-            //saveUsersInDb(mCompositeDisposable = mCompositDisposible,users = items)
         }
     }
 

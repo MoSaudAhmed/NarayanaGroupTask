@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.narayanagrouptask.R
 import com.example.narayanagrouptask.models.Owner
+import com.example.narayanagrouptask.ui.callbacks.ContributorsClickListener
 
 
 class ContributorsAdapter(
     var context: Context,
     var repoItems: ArrayList<Owner>,
+    var listener: ContributorsClickListener
 ) : RecyclerView.Adapter<ContributorsAdapter.MViewHolder>() {
     public fun updateList(repoItems: List<Owner>) {
         this.repoItems.addAll(repoItems)
@@ -36,10 +38,11 @@ class ContributorsAdapter(
         holder.tv_name.text = "${repoItems.get(position).login}"
         holder.tv_description.text = "${repoItems.get(position).htmlUrl}"
         holder.tv_description.setPaintFlags(holder.tv_description.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
+        holder.tv_description.setTextColor(context.resources.getColor(android.R.color.holo_blue_dark))
 
-/*        holder.itemView.setOnClickListener {
-            listener.onItemClicked(position)
-        }*/
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(position)
+        }
     }
 
     override fun getItemCount(): Int {

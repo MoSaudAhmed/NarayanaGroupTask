@@ -4,33 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="15dp"
     android:fillViewport="true"
-    tools:context=".ui.activities.RepoDetailedActivity">
+    tools:context=".ui.activities.DetailsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/home_card_row"></include>
+        <include layout="@layout/toolbar_layout" />
 
-        <TextView
-            android:id="@+id/tv_repoUrl"
-            style="@style/HomeTextStyleBold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="3dp"
-            android:layout_marginVertical="10dp"
-            android:text="URL CLick here"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="18sp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_contributors"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
+
+            <include layout="@layout/home_card_row"></include>
+
+            <TextView
+                android:id="@+id/tv_repoUrl"
+                style="@style/HomeTextStyleBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="3dp"
+                android:layout_marginVertical="10dp"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_contributors"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ProgressBar
+                    android:id="@+id/progress_detailsActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
-
-
 </androidx.core.widget.NestedScrollView>

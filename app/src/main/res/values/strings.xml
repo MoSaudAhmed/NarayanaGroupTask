@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NarayanaGroupTask</string>
+    <string name="NoInternetConnection">No Internet Connection</string>
 </resources>
